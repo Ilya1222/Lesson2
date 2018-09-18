@@ -8,7 +8,7 @@ import list.MyListImp;
         * The Demo class shows the all necessary methods for operating the list
         * that has type MyListImpl.
         *
-        * @version     1.0 06 September 2018
+        * @version     1.0 16 September 2018
         * @author      Ilay
         */
 
