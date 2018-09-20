@@ -140,7 +140,7 @@ public class MyListImp implements MyList  {
         @Override
         public void remove() {
             if (!flag)throw  new IllegalStateException();
-            int goal =last+1;
+            int goal =indicator;
              MyListImp.this.remove(goal);
              indicator=indicator-1;
 
