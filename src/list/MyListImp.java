@@ -2,18 +2,21 @@ package list;
 
 import java.util.Arrays;
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 /**
  *  The MyListImp class implements interface MyList.
  *  @version     1.0 18 September 2018
  *  @author      Ilay
  */
-public class MyListImp implements MyList {
+public class MyListImp implements MyList  {
     private final int DEFAULT_SIZE = 6;
     private final int CONSTANT = 3;
     private Object[] array = new Object[DEFAULT_SIZE];
     private Object[] arrayFromString;
     private int size = 0;
+    private boolean flag = false;
+
 
 
 
@@ -61,6 +64,7 @@ public class MyListImp implements MyList {
 
     @Override
     public void remove(int index) {
+        flag=false;
         index-=1;
         for (int i = index ; i < size; i++)
             array[i] = array[i + 1];
@@ -104,7 +108,50 @@ public class MyListImp implements MyList {
     }
 
     @Override
-    public Iterator<Object> iterator() {
-        return null;
+    public Iterator <Object> iterator() {
+        return new MyIteratorImp();
     }
+
+
+
+    private class MyIteratorImp  implements Iterator {
+           int indicator =0;
+           int last=0;
+
+        @Override
+        public boolean hasNext() {
+            return indicator!=size;
+        }
+
+        @Override
+        public Object next() {
+            flag =true;
+            int next =indicator;
+            Object [] newArray =  MyListImp.this.array;
+            if(next>=size) throw new NoSuchElementException();
+            if(next>=newArray.length)throw new NoSuchElementException();
+            indicator=next+1;
+            last=next;
+            return  newArray[last];
+        }
+
+
+
+        @Override
+        public void remove() {
+            if (!flag)throw  new IllegalStateException();
+            int goal =last+1;
+             MyListImp.this.remove(goal);
+             indicator=indicator-1;
+
+
+
+        }
+
+
+    }
+
+
+
+
 }
