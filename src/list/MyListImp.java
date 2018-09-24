@@ -1,5 +1,8 @@
 package list;
 
+import mylistIterator.ListIterable;
+import mylistIterator.ListIterator;
+
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
@@ -9,13 +12,13 @@ import java.util.NoSuchElementException;
  *  @version     1.0 18 September 2018
  *  @author      Ilay
  */
-public class MyListImp implements MyList  {
+public class MyListImp implements MyList , ListIterable {
     private final int DEFAULT_SIZE = 6;
     private final int CONSTANT = 3;
     private Object[] array = new Object[DEFAULT_SIZE];
     private Object[] arrayFromString;
     private int size = 0;
-    private boolean flag = false;
+
 
 
 
@@ -64,7 +67,6 @@ public class MyListImp implements MyList  {
 
     @Override
     public void remove(int index) {
-        flag=false;
         index-=1;
         for (int i = index ; i < size; i++)
             array[i] = array[i + 1];
@@ -112,11 +114,16 @@ public class MyListImp implements MyList  {
         return new MyIteratorImp();
     }
 
+    @Override
+    public ListIterator listIterator() {
+        return new MyListIterator();
+    }
 
 
     private class MyIteratorImp  implements Iterator {
            int indicator =0;
            int last=0;
+        private boolean flag = false;
 
         @Override
         public boolean hasNext() {
@@ -143,6 +150,7 @@ public class MyListImp implements MyList  {
             int goal =indicator;
              MyListImp.this.remove(goal);
              indicator=indicator-1;
+             flag = false;
 
 
 
@@ -151,7 +159,59 @@ public class MyListImp implements MyList  {
 
     }
 
+private class MyListIterator implements ListIterator{
+   private int indicator =0;
+    private int last=0;
+    private boolean flag = false;
 
+    @Override
+    public boolean hasPrevious() {
+        return indicator!=0;
+    }
+
+    @Override
+    public Object previous() {
+        flag=true;
+        int revers_next = indicator;
+        if(revers_next<0)throw new NoSuchElementException();
+        Object [] newArray =  MyListImp.this.array;
+        if (revers_next>=newArray.length)throw new NoSuchElementException();
+        indicator=revers_next-1;
+        last = revers_next-1;
+        return newArray[last];
+    }
+
+    @Override
+    public void set(Object e) {
+
+    }
+
+    @Override
+    public boolean hasNext() {
+        return indicator!=size;
+    }
+
+    @Override
+    public Object next() {
+        flag = true;
+        int next = indicator;
+        Object [] newArray =  MyListImp.this.array;
+        if (next>=size)throw new NoSuchElementException();
+        if (next>=newArray.length)throw new NoSuchElementException();
+        indicator=next+1;
+        last=next;
+        return newArray[last];
+    }
+
+    @Override
+    public void remove() {
+        if (!flag)throw  new IllegalStateException();
+        int goal =indicator;
+        MyListImp.this.remove(goal);
+        indicator=indicator-1;
+        flag=false;
+    }
+}
 
 
 }
