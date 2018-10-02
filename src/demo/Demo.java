@@ -3,6 +3,7 @@ package demo;
 
 import list.MyList;
 import list.MyListImp;
+import list.MyLinkListImp;
 import mylistIterator.ListIterator;
 import mylistIterator.ListIterable;
 import java.util.Iterator;
@@ -24,27 +25,29 @@ public class Demo {
      */
     public static void main(String[] args) {
         System.out.println("==== Part1");
-        MyListImp list = new MyListImp();
+        MyLinkListImp list = new MyLinkListImp();
         list.add("A");
         list.add("A2");
-        System.out.println(list);
-        // [A, A2]
+
+        System.out.println(list+ "->"+list.size());
+//        // [A, A2]
         list.clear();
-        System.out.println(list);
-        //[]
+        System.out.println(list+ "->"+list.size());
+//        //[]
         list.add("A");
         list.add("A2");
         list.add("A3");
-        list.remove(2);
+        System.out.println(list + "->"+list.size());
+        list.remove(1);
         System.out.println(list);
         // [A A3]
         for (Object el : list.toArray()) {
             System.out.print(el);
         }
         System.out.println();
-        // [AA3]
+//        // [AA3]
         System.out.println(list.size());
-        // 2
+//        // 2
         System.out.println(list.contains("B"));
         // false
         System.out.println(list.contains("A3"));
@@ -56,9 +59,8 @@ public class Demo {
         anotherList.add("A3");
         System.out.println("list2: "+anotherList);
         System.out.println("list1 contains list2 ->"+list.containsAll(anotherList));
-        // false
-        anotherList.add("B" +
-                "");
+             // false
+        anotherList.add("B" + "");
         System.out.println("list2: "+anotherList);
         System.out.println("list1 contains list2 ->"+list.containsAll(anotherList));
         // true
@@ -66,7 +68,7 @@ public class Demo {
 
 
         System.out.println("==== Part2");
-        list = new MyListImp();
+        list = new MyLinkListImp();
         list.add(1);
         list.add(2);
         list.add(3);
@@ -94,11 +96,11 @@ public class Demo {
         } catch (IllegalStateException ex) {
             System.out.println(ex.getClass());
         }
-        // class java.lang.IllegalStateException
+       //         class java.lang.IllegalStateException
 
 
         System.out.println("==== Part3");
-        list = new MyListImp();
+        list = new MyLinkListImp();
         list.add(1);
         list.add(2);
         list.add(3);
@@ -115,8 +117,7 @@ public class Demo {
         }
         System.out.println();
         // 4 3 2 1
-        list = new MyListImp
-                ();
+        list = new MyLinkListImp();
         lit = ((ListIterable) list).listIterator();
         System.out.println(lit.hasNext());
         // false
@@ -129,7 +130,6 @@ public class Demo {
         // false
         System.out.println(lit.hasPrevious());
         // true
-
 
     }
 
